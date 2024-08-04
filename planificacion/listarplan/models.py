@@ -1,5 +1,14 @@
 from django.db import models
 
+from django.http.response import JsonResponse
+from django.http import HttpResponse
+from django.db import connection
+import pandas as pd
+import seaborn as sns
+import numpy as np
+# import seaborn as sns
+
+
 # Create your models here.
 # This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
@@ -679,3 +688,47 @@ class Reservas(models.Model):
     class Meta:
         managed = False
         db_table = 'reservas'
+
+
+class Planeamiento(models.Model):
+    def limpiar_planordenreserva(request):
+        borrado = False
+        try:
+            with connection.cursor() as cursor:
+                cursor.callproc('abastece_limpia_ordenreservas')
+                borrado = True
+        except Exception as error:
+            borrado = False
+        return borrado
+
+    def limpiar_tablasplan(request):
+        borrado = False
+        try:
+            with connection.cursor() as cursor:
+            
+                cursor.callproc('limpieza_tablas_plan')
+                borrado = True
+        except Exception as error:
+            borrado = False
+        return borrado    
+    
+    def crear_planreservas(request):
+        creado = False
+        try:
+            with connection.cursor() as cursor:
+                    cursor.callproc('abastece_planreservas')
+                    creado = True
+        except Exception as error:
+            creado = False                
+        return creado
+    
+    def crear_planavisorden(request):
+        creado = False
+        try:
+            with connection.cursor() as cursor:
+                    cursor.callproc('abastece_planavisorden')
+                    creado = True
+        except Exception as error:
+            creado = False                
+        return creado
+
