@@ -97,6 +97,7 @@ def crear_previos(_request):
         ordenreservas['ate_UMB'] = ""
         ordenreservas['ate_orden'] = 0
         ordenreservas['ate_fecha'] = ""
+        ordenreservas['ate_preorden'] = 0
 
         # Reordenar columnas en Ordenreserva
         ordenreservas = ordenreservas.reindex([ 'id_x','fechacarga_y','orden','felib','aviso','empldeno','zona','equipo','eqdescrip','repercusion','cliente','proyecto','ave_ini_fecha','ave_fin_fecha','parada',
@@ -105,7 +106,7 @@ def crear_previos(_request):
                                                 'aviso_fecreado','orden_fe_fin_ext','orden_fe_ini_ext','fabricaequipo','orden_fecietec','orden_claact_deno','gruplan_deno','centro_y','eq_clase','orden_tipimput','orden_fecrea','orden_texto',
                                                 'orden_prio','ot_abierto','ot_liberado','ot_cierrete','ot_cerrado','hruta_contador','hruta_grupo','aviso_prioridad_deno','aviso_clase_deno','orden_revision','orden_revision_texto','orden_causas_cod',
                                                 'orden_causas','orden_causas_texto','cotizacion','pedido_venta','orden_pos_mtto','plan_mantenimiento','fechacarga_x','reserva','reservapos','material','materialdeno','ctd_nec','ctd_reduc',
-                                                'ctd_dif','um_base','usuario','centro_x','almacen','lote','fe_nece','orden_op','imputacion','ce_coste','salida_fin','relevplnec','grafo','elem_pep','febase','reservaestatus','reservaimputacion',
+                                                'ctd_dif','um_base','usuario','centro_x','almacen','lote','fe_nece','orden_op','dest_merc','imputacion','ce_coste','salida_fin','relevplnec','grafo','elem_pep','febase','reservaestatus','reservaimputacion',
                                                 'indicador_dh','reserva_pos_borrado','reserva_mov_permit','ate_accion','ate_codigosap','ate_cantidad','ate_UMB','ate_orden','ate_fecha'], axis=1)
         
         # DETERMINAR ACCION de Abastecimiento
@@ -136,6 +137,13 @@ def crear_previos(_request):
         # 3. Cambiamos los NaN por None que llegara a Mysql como NULL
         ordenreservas = ordenreservas.replace({np.nan: None})
         
+        # DETERMINAR ORDEN DE LAS ATENCIONES
+        # 1. Por semanas de Planificacion
+        ordenreservas.loc[ordenreservas['orden_revision_texto'] == "" , 'orden_revision_texto'] = "Programa Semanal por Asignar"
+        
+        # A. Servicio Tecnico Campo
+        
+        
         # REVISION DE TABLA FINAL
         # print(ordenreservas)
         # print(ordenreservas.columns.values)
@@ -156,11 +164,11 @@ def crear_previos(_request):
                                 `criticidad_deno`,`eqvaloradq_usd`,`repercusiondeno`,`oden_clase_deno`,`coti_esta_deno`,`avisodespacho`,`estatususuarioorden`,`aviso_fecreado`,`orden_fe_fin_ext`,`orden_fe_ini_ext`,`fabricaequipo`,
                                 `orden_fecietec`,`orden_claact_deno`,`gruplan_deno`,`centro`,`eq_clase`,`orden_tipimput`,`orden_fecrea`,`orden_texto`,`orden_prio`,`ot_abierto`,`ot_liberado`,`ot_cierrete`,`ot_cerrado`,`hruta_contador`,
                                 `hruta_grupo`,`aviso_prioridad_deno`,`aviso_clase_deno`,`orden_revision`,`orden_revision_texto`,`orden_causas_cod`,`orden_causas`,`orden_causas_texto`,`cotizacion`,`pedido_venta`,`orden_pos_mtto`,`plan_mantenimiento`,
-                                `reserva_fechacarga`,`reserva`,`reservapos`,`material`,`materialdeno`,`ctd_nec`,`ctd_reduc`,`ctd_dif`,`um_base`,`usuario`,`reserva_centro`,`reserva_almacen`,`lote`,`fe_nece`,`orden_op`,`imputacion`,`ce_coste`,
+                                `reserva_fechacarga`,`reserva`,`reservapos`,`material`,`materialdeno`,`ctd_nec`,`ctd_reduc`,`ctd_dif`,`um_base`,`usuario`,`reserva_centro`,`reserva_almacen`,`lote`,`fe_nece`,`orden_op`,`dest_merc`,`imputacion`,`ce_coste`,
                                 `salida_fin`,`relevplnec`,`grafo`,`elem_pep`,`febase`,`reservaestatus`,`reservaimputacion`,`indicador_dh`,`reserva_pos_borrado`,`reserva_mov_permit`,`ate_accion`,`ate_codigosap`,`ate_cantidad`,`ate_UMB`,`ate_orden`,`ate_fecha`)
                                 VALUES
                                 (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,
-                                %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                                %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                                 """
         # 3. Hacer la carga de las partes
         total = num_chunks
