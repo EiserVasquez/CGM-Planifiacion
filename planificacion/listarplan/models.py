@@ -406,12 +406,22 @@ class Ordenreserva(models.Model):
     indicador_dh = models.CharField(max_length=2, blank=True, null=True)
     reserva_pos_borrado = models.CharField(max_length=2, blank=True, null=True)
     reserva_mov_permit = models.CharField(max_length=2, blank=True, null=True)
+    ate_accion = models.CharField(max_length=10, blank=True, null=True)
     ate_codigosap = models.CharField(max_length=20, blank=True, null=True)
-    ate_cantidad = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    ate_cantidad = models.DecimalField(max_digits=14, decimal_places=2, blank=True, null=True)
     ate_umb = models.CharField(db_column='ate_UMB', max_length=4, blank=True, null=True)  # Field name made lowercase.
     ate_orden = models.IntegerField(blank=True, null=True)
     ate_fecha = models.DateField(blank=True, null=True)
-
+    reservasolped = models.CharField(max_length=2, blank=True, null=True)
+    centro_planif = models.CharField(max_length=5, blank=True, null=True)
+    ceco_responsable01 = models.CharField(max_length=20, blank=True, null=True)
+    ceco_responsable02 = models.CharField(max_length=20, blank=True, null=True)
+    departamento = models.CharField(max_length=20, blank=True, null=True)
+    provincia = models.CharField(max_length=20, blank=True, null=True)
+    detalle01 = models.CharField(max_length=40, blank=True, null=True)
+    detalle02 = models.CharField(max_length=5, blank=True, null=True)
+    valor_flota = models.DecimalField(max_digits=14, decimal_places=2)
+       
     class Meta:
         managed = False
         db_table = 'ordenreserva'
@@ -591,11 +601,19 @@ class PlanOrdenreserva(models.Model):
     reserva_mov_permit = models.CharField(max_length=2, blank=True, null=True)
     ate_accion = models.CharField(max_length=10, blank=True, null=True)
     ate_codigosap = models.CharField(max_length=20, blank=True, null=True)
-    ate_cantidad = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    ate_cantidad = models.DecimalField(max_digits=14, decimal_places=2, blank=True, null=True)
     ate_umb = models.CharField(db_column='ate_UMB', max_length=4, blank=True, null=True)  # Field name made lowercase.
     ate_orden = models.IntegerField(blank=True, null=True)
     ate_fecha = models.DateField(blank=True, null=True)
-
+    reservasolped = models.CharField(max_length=2, blank=True, null=True)
+    centro_planif = models.CharField(max_length=5, blank=True, null=True)
+    ceco_responsable01 = models.CharField(max_length=20, blank=True, null=True)
+    ceco_responsable02 = models.CharField(max_length=20, blank=True, null=True)
+    departamento = models.CharField(max_length=20, blank=True, null=True)
+    provincia = models.CharField(max_length=20, blank=True, null=True)
+    detalle01 = models.CharField(max_length=40, blank=True, null=True)
+    detalle02 = models.CharField(max_length=5, blank=True, null=True)
+    valor_flota = models.DecimalField(max_digits=14, decimal_places=2)    
     class Meta:
         managed = False
         db_table = 'plan_ordenreserva'
@@ -735,3 +753,72 @@ class Planeamiento(models.Model):
             creado = False                
         return creado
 
+
+class Ordenes(models.Model):
+    fechacarga = models.DateTimeField(blank=True, null=True)
+    orden = models.CharField(max_length=10, blank=True, null=True)
+    aviso = models.CharField(max_length=10, blank=True, null=True)
+    claot = models.CharField(max_length=4, blank=True, null=True)
+    equipo = models.CharField(max_length=10, blank=True, null=True)
+    material = models.CharField(max_length=30, blank=True, null=True)
+    felib = models.CharField(max_length=10, blank=True, null=True)
+    orden_texto = models.CharField(max_length=45, blank=True, null=True)
+    orden_estsis = models.CharField(max_length=40, blank=True, null=True)
+    reservasolped = models.CharField(max_length=2, blank=True, null=True)
+    local = models.CharField(max_length=12, blank=True, null=True)
+    orden_revision = models.CharField(max_length=10, blank=True, null=True)
+    estatususuarioorden = models.CharField(max_length=40, blank=True, null=True)
+    orden_claact = models.CharField(max_length=4, blank=True, null=True)
+    centro = models.CharField(max_length=4, blank=True, null=True)
+    area_empr = models.CharField(max_length=5, blank=True, null=True)
+    costos_total_plan = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    costos_total_real = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    moneda = models.CharField(max_length=5, blank=True, null=True)
+    orden_prio = models.CharField(max_length=2, blank=True, null=True)
+    orden_prio_texto = models.CharField(max_length=15, blank=True, null=True)
+    estado_inst = models.CharField(max_length=2, blank=True, null=True)
+    ptotbjores_cod = models.CharField(max_length=10, blank=True, null=True)
+    gruplan = models.CharField(max_length=4, blank=True, null=True)
+    centro_planif = models.CharField(max_length=4, blank=True, null=True)
+    ubitec_deno = models.CharField(max_length=40, blank=True, null=True)
+    emplazamiento = models.CharField(max_length=5, blank=True, null=True)
+    emplcentro = models.CharField(max_length=4, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ordenes'
+
+class PlanOrdenes(models.Model):
+    id = models.IntegerField(primary_key=True)
+    fechacarga = models.DateTimeField(blank=True, null=True)
+    orden = models.CharField(max_length=10, blank=True, null=True)
+    aviso = models.CharField(max_length=10, blank=True, null=True)
+    claot = models.CharField(max_length=4, blank=True, null=True)
+    equipo = models.CharField(max_length=10, blank=True, null=True)
+    material = models.CharField(max_length=30, blank=True, null=True)
+    felib = models.CharField(max_length=10, blank=True, null=True)
+    orden_texto = models.CharField(max_length=45, blank=True, null=True)
+    orden_estsis = models.CharField(max_length=40, blank=True, null=True)
+    reservasolped = models.CharField(max_length=2, blank=True, null=True)
+    local = models.CharField(max_length=12, blank=True, null=True)
+    orden_revision = models.CharField(max_length=10, blank=True, null=True)
+    estatususuarioorden = models.CharField(max_length=40, blank=True, null=True)
+    orden_claact = models.CharField(max_length=4, blank=True, null=True)
+    centro = models.CharField(max_length=4, blank=True, null=True)
+    area_empr = models.CharField(max_length=5, blank=True, null=True)
+    costos_total_plan = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    costos_total_real = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
+    moneda = models.CharField(max_length=5, blank=True, null=True)
+    orden_prio = models.CharField(max_length=2, blank=True, null=True)
+    orden_prio_texto = models.CharField(max_length=15, blank=True, null=True)
+    estado_inst = models.CharField(max_length=2, blank=True, null=True)
+    ptotbjores_cod = models.CharField(max_length=10, blank=True, null=True)
+    gruplan = models.CharField(max_length=4, blank=True, null=True)
+    centro_planif = models.CharField(max_length=4, blank=True, null=True)
+    ubitec_deno = models.CharField(max_length=40, blank=True, null=True)
+    emplazamiento = models.CharField(max_length=5, blank=True, null=True)
+    emplcentro = models.CharField(max_length=4, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'plan_ordenes'

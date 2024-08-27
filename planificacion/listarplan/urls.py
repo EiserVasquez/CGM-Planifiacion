@@ -4,8 +4,10 @@ from . import views
 urlpatterns = [
     path('',views.index,name='index'),
     path('lista_reservas/', views.lista_reservas, name='lista_reservas'),
-    path('crear_previos/', views.crear_previos, name='crear_previos'),
-    path('crear_planreservas/', views.crear_planreservas, name='crear_planreservas'),
-    path('crear_planavisorden/', views.crear_planavisorden, name='crear_planavisorden'),
-    
+    path('plan-limpiartablas/', views.limpiar_tablasplan, name='plan-limpiartablas'),
+    path('plan-reservas/', views.crear_planreservas, name='plan-reservas'),
+    path('plan-avisorden/', views.crear_planavisorden, name='plan-avisorden'),
+    path('plan-ordenes/', views.crear_planordenes, name='plan-ordenes'),
+    path('plan-crear/', views.crear_planabastecimiento, name='plan-crear'),
+    path('plan-pruebas/', views.crear_pruebas, name='plan-pruebas'),
 ]
