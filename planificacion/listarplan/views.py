@@ -414,6 +414,18 @@ def crear_planabastecimiento(_request):
                                                 'indicador_dh','reserva_pos_borrado','reserva_mov_permit','ate_accion','ate_codigosap','ate_cantidad','ate_UMB','ate_orden','ate_fecha','valor_flota','reservasolped','detalle01','detalle02'], axis=1)
         
         
+        # Distribuir el Inventario
+
+
+
+        # Distribuir los Pedidos Pendientes
+
+
+
+
+
+
+
         # INICIO DE CARGAS A MYSQL
         # 0. Borar el contenido de la tabla
         
